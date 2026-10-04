@@ -19,7 +19,7 @@ and the CDN.
 
 ---
 
-![Step 01 — Brief](docs/screenshots/01-brief.jpg)
+![Step 01 — Brief](docs/screenshots/01-brief.png)
 
 ## The problem
 
@@ -52,14 +52,14 @@ fires, with timings and the raw response JSON.
 
 ### Step 02 — variations, each one a managed asset
 
-![Step 02 — Variations](docs/screenshots/02-variations.jpg)
+![Step 02 — Variations](docs/screenshots/02-variations.png)
 
 Four variations from one brief, generated in parallel on Flux. Each card shows the
 model, the time it took, its caption and tags, and its Cloudinary public ID.
 
 ### Step 03 — one winner, every channel
 
-![Step 03 — Channel kit](docs/screenshots/03-channel-kit.jpg)
+![Step 03 — Channel kit](docs/screenshots/03-channel-kit.png)
 
 The transformation chain is printed under every derivative, because that is the
 point: these are not five generated images, they are five URLs pointing at one
@@ -67,7 +67,7 @@ asset. Type in the headline box and all five rebuild without a single API call.
 
 ### Library — searchable by what is in the image
 
-![Library](docs/screenshots/04-library.jpg)
+![Library](docs/screenshots/04-library.png)
 
 No database. This grid is a live Cloudinary Search API query over tags and the
 captions written onto each asset at generation time.
