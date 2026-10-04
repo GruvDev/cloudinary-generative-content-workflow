@@ -108,36 +108,98 @@ immediately transformable, searchable and deliverable.
 
 ## Running it locally
 
+**Requirements:** Node.js 20 or newer (`node -v` to check) and a free Cloudinary
+account.
+
+### 1. Get the code
+
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/<your-username>/kiln-studio.git
 cd kiln-studio
 npm install
-cp .env.example .env.local     # fill in your three Cloudinary values
-npm run verify                 # proves the pipeline against your account
-npm run dev                    # http://localhost:3000
 ```
 
-### Cloudinary setup
+### 2. Set up Cloudinary
 
 1. Create a free account at [cloudinary.com](https://cloudinary.com).
 2. **Settings → Add-ons** — enable **Cloudinary Image Generation** and
-   **Cloudinary AI Vision**.
-3. **Settings → API Keys** — copy your cloud name, API key and API secret into
-   `.env.local`.
+   **Cloudinary AI Vision**. Both are optional; the app degrades gracefully
+   without them (see below), but the full pipeline needs them.
+3. **Settings → API Keys** — keep the page open, you need three values from it.
 
-### `npm run verify`
+### 3. Add your credentials
 
-Runs the whole pipeline once against your own account and prints a pass/fail
-report — credentials, upload, metadata merge, generation, AI Vision,
-transformation rendering, forced download, named transformation and search. It
-creates a few assets under `kiln/_verify` and deletes them again (`--keep` to
-retain them).
+Copy the example file:
 
-**Run this before recording a demo.** It answers the only question that matters in
+```bash
+# macOS / Linux
+cp .env.example .env.local
+```
+
+```cmd
+:: Windows
+copy .env.example .env.local
+```
+
+Open `.env.local` in any text editor and fill in the three values from your
+Cloudinary API Keys page:
+
+```ini
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=123456789012345
+CLOUDINARY_API_SECRET=your-api-secret
+```
+
+No quotes, no spaces around the `=`. These stay server-side — the API secret is
+never sent to the browser.
+
+### 4. Check it works
+
+```bash
+npm run verify
+```
+
+This runs the whole pipeline against your account and prints a pass/fail report.
+Wait for the last line:
+
+| Result | Meaning |
+|---|---|
+| `Ready.` | Everything works — go to step 5 |
+| `Ready, with the fallback path.` | Core works, an add-on is not enabled. Fine — upload a product shot in the app |
+| `Not ready.` | Read the failed line; it names the exact problem and often the fix |
+
+### 5. Run it
+
+```bash
+npm run dev
+```
+
+Open **http://localhost:3000**.
+
+**First thing to check:** is there a red banner at the top saying *"Sample-asset
+mode"*? If yes, your credentials are not loading — check `.env.local` is in the
+project root and spelled exactly that. No banner means you are connected.
+
+### Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `'cp' is not recognized` (Windows) | Use `copy .env.example .env.local` |
+| Red "Sample-asset mode" banner | `.env.local` missing, misnamed, or values empty. It must sit next to `package.json` |
+| `http 401` / `403` in verify | Wrong key or secret. Re-copy them — watch for trailing spaces |
+| `HTTP 404` from the generation API | The Image Generation add-on is not enabled, or the base URL differs. Check your console's API reference and set `CLOUDINARY_IMAGEGEN_BASE` |
+| Derivatives return HTTP 400 | Usually a font issue. `npm run verify` probes alternatives and prints the exact `.env.local` lines to paste |
+| Port 3000 already in use | `npm run dev -- -p 3001` |
+| Search returns nothing right after generating | Indexing lags a few seconds. Wait and refresh |
+
+### What `npm run verify` actually checks
+
+Credentials, upload, metadata merge, generation, AI Vision, transformation
+rendering, forced download, named transformation and search. It creates a few
+assets under `kiln/_verify` and deletes them again (`--keep` to retain them).
+
+**Run it before recording a demo.** It answers the only question that matters in
 about a minute: is this really talking to Cloudinary, or falling back to samples?
-
-If a check fails it prints the failing URL and, for font problems, probes
-alternatives and tells you exactly what to put in `.env.local`.
 
 ### It runs without credentials too
 
