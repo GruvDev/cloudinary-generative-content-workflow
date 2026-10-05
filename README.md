@@ -13,8 +13,8 @@ and the CDN.
 | | |
 |---|---|
 | **Track** | PS-02 · Track 2 — Generative Content Workflows |
-| **Live demo** | _add your Vercel URL_ |
-| **Demo video** | _add your video URL_ |
+| **Live demo** | **https://cloudinary-generative-content-workf.vercel.app** |
+| **Demo video** | **https://drive.google.com/file/d/1Dxh9XDE46qjRYsiC04SmokjOxFdGB8Wp/view?usp=sharing**|
 | **Stack** | Next.js 16 · TypeScript · Cloudinary · Vercel |
 
 ---
